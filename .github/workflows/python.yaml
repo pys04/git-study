@@ -26,9 +26,8 @@ jobs:
 
       - name: Extract .txt files from artifact
         run: |
-          cd artifacts
-          tar -xf "Python-${{ matrix.python-version }}.tar.xz"
-          find . -type f -name "*.txt" -exec cp --parents {} ../txt_files/ \;
+          mkdir txt_files
+          tar -xvf "artifacts/Python-${{ matrix.python-version }}.tar.xz" --strip-components=1 --wildcards "*.txt" -C txt_files/
 
       - name: Archive txt files
         run: |
