@@ -1,4 +1,4 @@
-name: Python
+name: Download Python Artifacts
 
 on: workflow_dispatch
 
@@ -7,13 +7,22 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8"]
+        python-version: ["3.8", "3.9", "3.10"]
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
+
+      - name: Download Python ${{ matrix.python-version }} artifact
+        run: |
+          mkdir artifacts
+          cd artifacts
+          curl -O "https://www.python.org/ftp/python/${{ matrix.python-version }}/Python-${{ matrix.python-version }}.tar.xz"
+
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
