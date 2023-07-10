@@ -23,12 +23,17 @@ jobs:
           mkdir artifacts
           cd artifacts
           curl -O "https://www.python.org/ftp/python/${{ matrix.python-version }}/Python-${{ matrix.python-version }}.tar.xz"
-      
-      - name: Archive artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: Python-${{ matrix.python-version }}-artifact
-          path: artifacts/
+
+      - name: Extract .txt files from artifact
+        run: |
+          cd artifacts
+          tar -xf "Python-${{ matrix.python-version }}.tar.xz"
+          find . -type f -name "*.txt" -exec cp --parents {} ../txt_files/ \;
+
+      - name: Archive txt files
+        run: |
+          cd txt_files
+          zip -r python_txt_files.zip ./
 
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
