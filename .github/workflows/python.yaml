@@ -20,14 +20,14 @@ jobs:
 
       - name: Download Python ${{ matrix.python-version }} artifact
         run: |
-          curl -LO "https://www.python.org/ftp/python/${{ matrix.python-version }}/Python-${{ matrix.python-version }}.tar.xz"
-          mkdir extracted_files
-          tar -xf "Python-${{ matrix.python-version }}.tar.xz" -C extracted_files
+          mkdir artifacts
+          cd artifacts
+          curl -O "https://www.python.org/ftp/python/${{ matrix.python-version }}/Python-${{ matrix.python-version }}.tar.xz"
 
-      - name: Create txt files
+      - name: Extract .txt files from artifact
         run: |
           mkdir txt_files
-          find extracted_files -name "*.txt" -exec cp {} txt_files/ \;
+          tar -xvf "artifacts/Python-${{ matrix.python-version }}.tar.xz" --wildcards "*.txt" --directory txt_files/
 
       - name: Archive txt files
         run: |
