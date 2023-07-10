@@ -27,7 +27,7 @@ jobs:
       - name: Extract .txt files from artifact
         run: |
           mkdir txt_files
-          tar -xvf "artifacts/Python-${{ matrix.python-version }}.tar.xz" --strip-components=1 --wildcards "*.txt" -C txt_files/
+          tar -xf "artifacts/Python-${{ matrix.python-version }}.tar.xz" -C txt_files "*.txt"
 
       - name: Archive txt files
         run: |
