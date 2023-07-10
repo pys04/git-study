@@ -20,8 +20,10 @@ jobs:
         id: python-version
         env:
           PYTHON_VERSION: ${{ matrix.python-version }}
+      - name: Create Python version file
+        run: echo ${{ env.PYTHON_VERSION }} > python_version.txt
       - name: Upload Python version artifact
         uses: actions/upload-artifact@v2
         with:
           name: python-versions
-          path: ${{ env.PYTHON_VERSION }}
+          path: python_version.txt
